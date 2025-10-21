@@ -26,6 +26,14 @@ router.delete(
   eventsController.deleteEvent
 );
 
+// Since we want to update the event so it best to use PATCH to improve UX by partial update
+router.patch(
+  "/:id",
+  auth.ensureAuth,
+  validateObjectId,
+  eventsController.updateEvent
+);
+
 router.delete(
   "/deleteAllEvents/:groupId",
   auth.ensureAuth,

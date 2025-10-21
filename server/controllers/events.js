@@ -55,6 +55,32 @@ module.exports = {
     res.json(event);
   },
 
+  updateEvent: async (req, res) => {
+    const { id } = req.params;
+
+    let event;
+
+    if (!req.user.isModerator) {
+      // Allow update only if user is the author
+      event = await Event.findOneAndUpdate(
+        { _id: id, user: req.user._id },
+        req.body,
+        { new: true }
+      );
+    } else {
+      // Moderators can edit any event
+      event = await Event.findOneAndUpdate({ _id: id }, req.body, {
+        new: true,
+      });
+    }
+
+    if (!event) {
+      throw httpError(404, "Event not found or unauthorized to edit");
+    }
+
+    res.status(200).json({ message: "Event updated!", event });
+  },
+
   deleteEvent: async (req, res) => {
     const { id } = req.params;
 

@@ -13,21 +13,21 @@ const EventModal = () => {
   const { setEvents } = useEventsContext();
   const modal = useModalContext();
   const { user } = useAuthContext();
-  const canDelete =
+  const isAuthorizedUser =
     // if user is author of event, or user is moderator, they can delete an event
     (user && user?._id === modal.activeEvent.user?._id) || user?.isModerator;
 
   return (
     <div className="flex flex-col items-center py-0 px-2rem rounded-xl bg-white pb-4">
       <button
-        className="w-auto h-12 mt-5 px-2 border-solid border-2 border-gray outline-hidden rounded-sm font-semibold text-xl hover:bg-teal-600 active:bg-teal-700 focus:outline-hidden focus:ring-3 focus:ring-teal-300"
+        className="w-auto h-12 mt-5 px-2 border-solid border-2 border-gray outline-hidden rounded-sm font-semibold text-xl hover:bg-teal-600 active:bg-teal-700 focus:outline-hidden focus:ring-3 focus:ring-teal-300 cursor-pointer"
         onClick={modal.handleClose}
       >
         Close
       </button>
-      {canDelete && (
+      {isAuthorizedUser && (
         <button
-          className="w-auto h-12 mt-5 px-2 border-solid border-2 border-gray outline-hidden rounded-sm font-semibold text-xl hover:bg-teal-600 active:bg-teal-700 focus:outline-hidden focus:ring-3 focus:ring-teal-300"
+          className="w-auto h-12 mt-5 px-2 border-solid border-2 border-gray outline-hidden rounded-sm font-semibold text-xl hover:bg-teal-600 active:bg-teal-700 focus:outline-hidden focus:ring-3 focus:ring-teal-300 cursor-pointer"
           onClick={() =>
             dataService
               .deleteEvent(modal.activeEvent._id)
@@ -42,9 +42,9 @@ const EventModal = () => {
           Delete Specific Event
         </button>
       )}
-      {canDelete && modal.activeEvent.groupId && (
+      {isAuthorizedUser && modal.activeEvent.groupId && (
         <button
-          className="w-auto h-10 mt-5 px-2 border-solid border-2 border-gray outline-hidden rounded-sm font-semibold text-xl hover:bg-teal-600 active:bg-teal-700 focus:outline-hidden focus:ring-3 focus:ring-teal-300 inline-block"
+          className="w-auto h-10 mt-5 px-2 border-solid border-2 border-gray outline-hidden rounded-sm font-semibold text-xl hover:bg-teal-600 active:bg-teal-700 focus:outline-hidden focus:ring-3 focus:ring-teal-300 inline-block cursor-pointer"
           onClick={() =>
             dataService
               .deleteAllEvents(modal.activeEvent.groupId)
@@ -57,6 +57,17 @@ const EventModal = () => {
           }
         >
           Delete All Events
+        </button>
+      )}
+      {isAuthorizedUser && (
+        <button
+          className="w-auto h-12 mt-5 px-2 border-2 border-gray rounded font-semibold text-xl hover:bg-teal-600 cursor-pointer"
+          onClick={() => {
+            modal.setIsEditing(true);
+            modal.handleOpen();
+          }}
+        >
+          Edit Event
         </button>
       )}
       <div className="w-4/6 mt-3 flex flex-col">

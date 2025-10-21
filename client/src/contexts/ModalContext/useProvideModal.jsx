@@ -5,6 +5,7 @@ import { useState } from "react";
 const useProvideModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeEvent, setActiveEvent] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -12,6 +13,7 @@ const useProvideModal = () => {
 
   const handleClose = () => {
     setIsOpen(false);
+    setIsEditing(false);
   };
 
   const handleToggle = () => {
@@ -25,6 +27,8 @@ const useProvideModal = () => {
     handleToggle,
     activeEvent,
     setActiveEvent,
+    isEditing,
+    setIsEditing,
   };
 };
 

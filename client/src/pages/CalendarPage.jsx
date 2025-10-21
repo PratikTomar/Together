@@ -10,6 +10,7 @@ import EventModal from "../features/modal/EventModal";
 import { useModalContext } from "../contexts/ModalContext";
 import RejectionModal from "../features/modal/RejectionModal";
 import { useRef } from "react";
+import EditEventModal from "../features/modal/EditEventModal";
 
 function CalendarPage() {
   const auth = useAuthContext();
@@ -43,7 +44,7 @@ function CalendarPage() {
       </main>
       <div className="md:w-1/2 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
         <Modal context={modal}>
-          <EventModal />
+          {modal.isEditing ? <EditEventModal /> : <EventModal />}
         </Modal>
         <Modal context={formModal}>
           {auth?.user ? (

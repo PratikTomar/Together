@@ -21,6 +21,9 @@ class DataService {
   deleteAllEvents(groupId) {
     return URL.delete(`/events/deleteAllEvents/${groupId}`);
   }
+  updateEvent(id, msg) {
+    return URL.patch(`/events/${id}`, msg);
+  }
   getCurrentUser() {
     return URL.get("/getDisplayName");
   }
