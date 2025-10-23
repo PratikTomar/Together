@@ -66,12 +66,12 @@ module.exports = {
         { _id: id, user: req.user._id },
         req.body,
         { new: true }
-      );
+      ).populate("user", "displayName");
     } else {
       // Moderators can edit any event
       event = await Event.findOneAndUpdate({ _id: id }, req.body, {
         new: true,
-      });
+      }).populate("user", "displayName");
     }
 
     if (!event) {
